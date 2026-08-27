@@ -164,7 +164,7 @@ class ResearchFlow(Flow[ResearchState]):
     # 5. Finalize: summary + source list
     # ----------------------------------------------------------------
     @listen("finalize")
-    def finalize(self):
+    def finalize_step(self):
         question = self.state.question
         draft = self.state.draft
         self._log("[finalize] producing final report")
@@ -224,5 +224,5 @@ def run_research_stream(question: str):
         if route == "finalize" or round_num >= MAX_LOOPS:
             break
 
-    flow.finalize()
+    flow.finalize_step()
     yield "finalize", flow.state.model_dump()
